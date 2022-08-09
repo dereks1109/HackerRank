@@ -1,0 +1,15 @@
+//table : H Hackers--       hacker_id    name
+//table : D Difficulty--    difficulty_level    score
+//table : C Challenges--    challenger_id   hacker_id   difficulty_level
+//table : S Submissions--   sybmission_id   challenger_id   hacker_id   score
+
+//Order your output in descending order by the total number of challenges in which the hacker earned a full score. 
+//If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.
+
+Select H.hacker_id,H.name
+FROM Hackers H JOIN Challenges C ON H.hacker_id = C.hacker_id
+JOIN Submissions S ON H.hacker_id = S.hacker_id JOIN Difficulty D ON C.difficulty_level = D.difficulty_level
+WHERE S.score = D.score
+GROUP BY H.hacker_id,H.name
+HAVING COUNT(S.hacker_id)>1
+ORDER BY COUNT(S.hacker_id) DESC, S.hacker_id;
